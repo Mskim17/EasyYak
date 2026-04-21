@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>약 봉투 읽어드려요</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-label="약 봉투 글씨 읽기">
+      <header class="header">
+        <h1 class="title">약 봉투 글씨 읽어드려요</h1>
+        <p class="subtitle">사진을 올리면, 어려운 말은 쉬운 말로 바꿔서 보여드려요.</p>
+      </header>
+
+      <section class="card" aria-label="사진 올리기">
+        <div class="row">
+          <label class="bigLabel" for="fileInput">약 봉투 사진</label>
+          <input id="fileInput" class="fileInput" type="file" accept="image/*" capture="environment" />
+        </div>
+
+        <div class="buttons">
+          <button id="btnPick" class="bigBtn bigBtnSecondary" type="button">사진 고르기</button>
+          <button id="btnAnalyze" class="bigBtn bigBtnPrimary" type="button" disabled>읽어보기</button>
+        </div>
+
+        <div class="previewWrap" aria-label="선택한 사진 미리보기">
+          <img id="preview" class="preview" alt="선택한 사진 미리보기" />
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="card" aria-label="결과">
+        <h2 class="sectionTitle">중요한 내용</h2>
+        <ul id="highlights" class="highlights"></ul>
+
+        <div class="divider"></div>
+
+        <details class="details">
+          <summary class="summary">전체 글씨 보기</summary>
+          <pre id="easyText" class="textBox"></pre>
+        </details>
+
+        <details class="details">
+          <summary class="summary">원래 글씨(그대로)</summary>
+          <pre id="rawText" class="textBox textBoxMuted"></pre>
+        </details>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,17 @@
+{
+  "name": "pill-pouch-reader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Web app to OCR pill pouch photos and show simplified Korean instructions.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^2.0.0",
+    "tesseract.js": "^5.1.1"
+  }
+}
+

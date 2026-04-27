@@ -9,7 +9,7 @@ npm install
 npm start
 ```
 
-그다음 브라우저에서 `http://localhost:3000` 을 여세요.
+그다음 브라우저에서 `http://localhost:사용자지정 Port` 을 여세요.
 
 ## 사용 방법
 

@@ -9,7 +9,7 @@ npm install
 npm start
 ```
 
-그다음 브라우저에서 `http://localhost:3000` 을 여세요.
+그다음 브라우저에서 `http://localhost:사용자지정 Port` 을 여세요.
 
 ## 사용 방법
 
@@ -26,4 +26,4 @@ npm start
 ## 참고
 
 - OCR은 `tesseract.js`를 사용합니다. 사진이 어둡거나 흔들리면 정확도가 떨어질 수 있어요. 밝고 정면에서 찍을수록 좋습니다.
-
+- google API key가 있다면 사용할 수 있습니다.

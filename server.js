@@ -4,10 +4,17 @@ const path = require("path");
 const fs = require("fs");
 const os = require("os");
 const crypto = require("crypto");
-const Tesseract = require("tesseract.js");
+// const Tesseract = require("tesseract.js");
+// const vision = require("@google-cloud/vision");
+// const client = new vision.ImageAnnotatorClient({
+//   keyFilename: path.join(__dirname, "credentials.json")
+// });
+
+const fetch = require("node-fetch");
+const VISION_API_KEY = "AIzaSyATwHOxys1wIXWrKtV6jy7DP39lwyw0PmI";
 
 const app = express();
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const port = process.env.PORT ? Number(process.env.PORT) : 9918;
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -110,11 +117,41 @@ app.post("/api/ocr", upload.single("image"), async (req, res) => {
   const ocrLang = ["kor", "kor+eng", "eng"].includes(lang) ? lang : "kor";
 
   try {
-    const result = await Tesseract.recognize(filePath, ocrLang, {
-      logger: () => {}
-    });
+    // const result = await Tesseract.recognize(filePath, ocrLang, {
+    //   logger: () => {}
+    // });
 
-    const rawText = normalizeWhitespace(result?.data?.text || "");
+    // const rawText = normalizeWhitespace(result?.data?.text || "");
+    
+    // Vision API로 교체
+    // const [result] = await client.textDetection(filePath);
+    // const detections = result.textAnnotations;
+    // const rawText = normalizeWhitespace(
+    //   detections?.[0]?.description || ""
+    // );
+    // REST API 방식으로 교체
+    const imageBuffer = fs.readFileSync(filePath);
+    const base64Image = imageBuffer.toString("base64");
+
+    const response = await fetch(
+      `https://vision.googleapis.com/v1/images:annotate?key=${VISION_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requests: [{
+            image: { content: base64Image },
+            features: [{ type: "TEXT_DETECTION" }]
+          }]
+        })
+      }
+    );
+
+    const visionResult = await response.json();
+    const rawText = normalizeWhitespace(
+      visionResult.responses?.[0]?.fullTextAnnotation?.text || ""
+    );
+    
     const easyText = simplifyKoreanTerms(rawText);
     const highlights = extractHelpfulLines(easyText);
 
@@ -124,6 +161,7 @@ app.post("/api/ocr", upload.single("image"), async (req, res) => {
       highlights
     });
   } catch (e) {
+    console.error("Vision error응답:", JSON.stringify(visionResult));
     res.status(500).json({
       error: "사진에서 글씨를 읽는 중에 문제가 생겼어요. 더 밝게 찍어서 다시 올려주세요."
     });

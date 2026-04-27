@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
@@ -11,10 +12,10 @@ const crypto = require("crypto");
 // });
 
 const fetch = require("node-fetch");
-const VISION_API_KEY = "AIzaSyATwHOxys1wIXWrKtV6jy7DP39lwyw0PmI";
+const VISION_API_KEY = process.env.VISION_API_KEY;
 
 const app = express();
-const port = process.env.PORT ? Number(process.env.PORT) : 9918;
+const port = process.env.PORT;
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static(path.join(__dirname, "public")));

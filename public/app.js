@@ -1,3 +1,16 @@
+// 폰트 크기 조절
+const FONT_KEY = "easyyak-font-size";
+let currentFontSize = Number(localStorage.getItem(FONT_KEY)) || 100;
+
+function applyFontSize(size) {
+  document.documentElement.style.fontSize = `${size}%`;
+  localStorage.setItem(FONT_KEY, size);
+  currentFontSize = size;
+}
+
+// 초기 적용
+applyFontSize(currentFontSize);
+
 const els = {
   fileInput: document.getElementById("fileInput"),
   btnPick: document.getElementById("btnPick"),
@@ -98,3 +111,10 @@ els.btnAnalyze.addEventListener("click", analyze);
 setStatus("사진을 골라주세요.");
 setLoading(false);
 
+document.getElementById("btnFontUp").addEventListener("click", () => {
+  if (currentFontSize < 150) applyFontSize(currentFontSize + 10);
+});
+
+document.getElementById("btnFontDown").addEventListener("click", () => {
+  if (currentFontSize > 80) applyFontSize(currentFontSize - 10);
+});
